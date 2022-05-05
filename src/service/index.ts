@@ -13,7 +13,7 @@ const hyRequest = new HYRequest({
         console.log(config.headers)
         // config.headers.Authorization = `Bearer ${token}`
       }
-      console.log('请求成功的拦截')
+      // console.log('请求成功的拦截')
       return config
     },
     requestInterceptorCatch: (err) => {
@@ -21,7 +21,7 @@ const hyRequest = new HYRequest({
       return err
     },
     responseInterceptor: (res) => {
-      console.log('响应成功的拦截')
+      // console.log('响应成功的拦截')
       return res
     },
     responseInterceptorCatch: (err) => {

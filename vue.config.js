@@ -16,12 +16,8 @@ module.exports = defineConfig({
     },
     // 局部引入element-plus配置
     plugins: [
-      require('unplugin-auto-import/webpack')({
-        /* options */
-      }),
-      require('unplugin-vue-components/webpack')({
-        /* options */
-      })
+      require('unplugin-auto-import/webpack')({}),
+      require('unplugin-vue-components/webpack')({})
     ]
   }
   // configureWebpack: (config) => {

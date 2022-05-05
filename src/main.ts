@@ -1,14 +1,15 @@
 import { createApp } from 'vue'
 import { globalRegister } from './global'
+import 'normalize.css'
+import './assets/css/index.less'
 
-// import './service/axios_demo'
 import './service'
 
 import App from './App.vue'
 
 import router from './router'
 import store from './store'
-import hyRequest from './service'
+// import hyRequest from './service'
 
 const app = createApp(App)
 
@@ -18,8 +19,12 @@ app.use(router)
 app.use(store)
 app.mount('#app')
 
-console.log(process.env.VUE_APP_BASE_URL)
-console.log(process.env.VUE_APP_BASE_NAME)
+console.log(
+  '%c当前环境：',
+  'color:blue',
+  process.env.VUE_APP_BASE_URL,
+  process.env.VUE_APP_BASE_NAME
+)
 
 // hyRequest.request({
 //   url: '/home/multidata',
@@ -36,20 +41,18 @@ console.log(process.env.VUE_APP_BASE_NAME)
 //   }
 // })
 
-interface DataType {
-  data: any
-  returnCode: string
-  success: boolean
-}
+// interface DataType {
+//   data: any
+//   returnCode: string
+//   success: boolean
+// }
 
-hyRequest
-  .get<DataType>({
-    url: '/home/multidata',
-    showLoading: false
-  })
-  .then((res) => {
-    console.log(res.data)
-    console.log(res.returnCode)
-    console.log(res.success)
-  })
-// hyRequest.get()
+// hyRequest.get<DataType>({
+//   url: '/home/multidata',
+//   showLoading: false
+// })
+// .then((res) => {
+//   console.log(res.data)
+//   console.log(res.returnCode)
+//   console.log(res.success)
+// })

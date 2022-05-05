@@ -1,14 +1,22 @@
 import { createStore } from 'vuex'
 
-const store = createStore({
-  state: () => {
+import login from './login/login'
+
+import { IRootState } from './types'
+
+const store = createStore<IRootState>({
+  state() {
     return {
-      name: 'nizolan'
+      name: 'nizolan',
+      age: 18
     }
   },
   mutations: {},
   getters: {},
-  actions: {}
+  actions: {},
+  modules: {
+    login
+  }
 })
 
 export default store
