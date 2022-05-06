@@ -19,4 +19,9 @@ const store = createStore<IRootState>({
   }
 })
 
+// 解决刷新后vuex清空数据问题
+export function setupStore() {
+  store.dispatch('login/loadLocalLogin')
+}
+
 export default store

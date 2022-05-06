@@ -46,7 +46,7 @@ class HYRequest {
         return config
       },
       (err) => {
-        console.log('所有的实例都有的拦截器：请求失败拦截')
+        // console.log('所有的实例都有的拦截器：请求失败拦截')
         return err
       }
     )

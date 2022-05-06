@@ -10,6 +10,7 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 // import hyRequest from './service'
+import { setupStore } from './store'
 
 const app = createApp(App)
 
@@ -17,6 +18,8 @@ const app = createApp(App)
 app.use(globalRegister)
 app.use(router)
 app.use(store)
+setupStore()
+
 app.mount('#app')
 
 console.log(
