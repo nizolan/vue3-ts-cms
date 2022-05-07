@@ -2,11 +2,12 @@
   <div class="nav-menu">
     <div class="logo">
       <img class="img" src="~@/assets/img/logo.svg" alt="" />
-      <span class="title">Vue3+Ts</span>
+      <span v-if="!collapse" class="title">Vue3+Ts</span>
     </div>
     <el-menu
       default-active="2"
       class="el-menu-vertical"
+      :collapse="collapse"
       background-color="#0c2135"
       text-color="#b7bdc3"
       active-text-color="#0a60bd"
@@ -55,6 +56,12 @@ import { defineComponent, computed } from 'vue'
 import { useStore } from '@/store'
 
 export default defineComponent({
+  props: {
+    collapse: {
+      type: Boolean,
+      default: false
+    }
+  },
   setup() {
     const store = useStore()
     const userMenus = computed(() => store.state.login.userMenus)
@@ -120,7 +127,7 @@ export default defineComponent({
   // hover 高亮
   .el-menu-item:hover {
     color: #fff !important; // 菜单
-    background-color: #1f4161 !important;
+    background-color: #02182d !important;
   }
 
   .el-menu-item.is-active {
