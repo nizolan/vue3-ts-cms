@@ -6,10 +6,13 @@ import {
   ElAvatar,
   ElButton,
   ElCheckbox,
+  ElCol,
   ElContainer,
+  ElDatePicker,
   ElDropdown,
   ElDropdownItem,
   ElDropdownMenu,
+  ElEmpty,
   ElForm,
   ElFormItem,
   ElHeader,
@@ -20,6 +23,9 @@ import {
   ElMenu,
   ElMenuItem,
   ElMenuItemGroup,
+  ElOption,
+  ElRow,
+  ElSelect,
   ElSubMenu,
   ElTabPane,
   ElTabs
@@ -48,7 +54,13 @@ const components = [
   ElDropdown,
   ElDropdownMenu,
   ElDropdownItem,
-  ElAvatar
+  ElAvatar,
+  ElEmpty,
+  ElRow,
+  ElCol,
+  ElSelect,
+  ElOption,
+  ElDatePicker
 ]
 
 export default function (app: App) {

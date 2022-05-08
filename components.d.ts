@@ -9,6 +9,7 @@ declare module '@vue/runtime-core' {
     NavMenu: typeof import('./src/components/nav-menu/src/nav-menu.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    UserInfo: typeof import('./src/components/nav-header/src/user-info.vue')['default']
   }
 }
 
