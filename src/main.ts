@@ -22,12 +22,12 @@ setupStore()
 
 app.mount('#app')
 
-console.log(
-  '%c当前环境：',
-  'color:blue',
-  process.env.VUE_APP_BASE_URL,
-  process.env.VUE_APP_BASE_NAME
-)
+// console.log(
+//   '%c当前环境：',
+//   'color:blue',
+//   process.env.VUE_APP_BASE_URL,
+//   process.env.VUE_APP_BASE_NAME
+// )
 
 // hyRequest.request({
 //   url: '/home/multidata',

@@ -25,7 +25,10 @@
             </template>
             <!-- 遍历里面的item -->
             <template v-for="subitem in item.children" :key="subitem.id">
-              <el-menu-item :index="subitem.id + ''">
+              <el-menu-item
+                :index="subitem.id + ''"
+                @click="handleMenuItemClick(subitem)"
+              >
                 <template v-if="subitem.icon">
                   <el-icon
                     ><component :is="getIconName(subitem.icon)"
@@ -52,8 +55,8 @@
 
 <script lang="ts">
 import { defineComponent, computed } from 'vue'
-
 import { useStore } from '@/store'
+import { useRouter } from 'vue-router'
 
 export default defineComponent({
   props: {
@@ -72,9 +75,18 @@ export default defineComponent({
       return iconName
     }
 
+    const router = useRouter()
+
+    const handleMenuItemClick = (item: any) => {
+      router.push({
+        path: item.url ?? '/not-found'
+      })
+    }
+
     return {
       userMenus,
-      getIconName
+      getIconName,
+      handleMenuItemClick
     }
   }
 })
@@ -95,7 +107,7 @@ export default defineComponent({
 
     .img {
       height: 100%;
-      margin: 0 10px;
+      margin-right: 10px;
     }
 
     .title {
@@ -127,7 +139,7 @@ export default defineComponent({
   // hover 高亮
   .el-menu-item:hover {
     color: #fff !important; // 菜单
-    background-color: #02182d !important;
+    background-color: #073257 !important;
   }
 
   .el-menu-item.is-active {
