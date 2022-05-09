@@ -16,9 +16,11 @@ const app = createApp(App)
 
 // 注册elments-plus/其他
 app.use(globalRegister)
-app.use(router)
 app.use(store)
 setupStore()
+
+// path:/user => user
+app.use(router)
 
 app.mount('#app')
 
