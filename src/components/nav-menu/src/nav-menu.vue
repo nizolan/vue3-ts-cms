@@ -2,7 +2,7 @@
   <div class="nav-menu">
     <div class="logo">
       <img class="img" src="~@/assets/img/logo.svg" alt="" />
-      <span v-if="!collapse" class="title">Vue3+Ts</span>
+      <span v-if="!collapse" class="title">后台管理系统</span>
     </div>
     <el-menu
       :default-active="defaultValue"
