@@ -26,6 +26,7 @@ import {
   ElMenuItem,
   ElMenuItemGroup,
   ElOption,
+  ElPagination,
   ElRow,
   ElSelect,
   ElSubMenu,
@@ -68,7 +69,8 @@ const components = [
   ElBreadcrumb,
   ElBreadcrumbItem,
   ElTable,
-  ElTableColumn
+  ElTableColumn,
+  ElPagination
 ]
 
 export default function (app: App) {

@@ -6,14 +6,8 @@
       </template>
       <template #footer>
         <div class="footer">
-          <el-button>
-            <el-icon><refresh /></el-icon>
-            重置
-          </el-button>
-          <el-button type="primary">
-            <el-icon><search /></el-icon>
-            搜索
-          </el-button>
+          <el-button icon="Refresh">重置</el-button>
+          <el-button type="primary" icon="Search">搜索</el-button>
         </div>
       </template>
     </hy-form>

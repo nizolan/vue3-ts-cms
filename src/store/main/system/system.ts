@@ -22,8 +22,8 @@ const systemModule: Module<ISystemState, IRootState> = {
   },
   actions: {
     async getPageListAction({ commit }, payload: any) {
-      console.log(payload.pageUrl)
-      console.log(payload.queryInfo)
+      // console.log(payload.pageUrl)
+      // console.log(payload.queryInfo)
 
       // 1.对页面发送请求
       const pageResult = await getPageListData(
