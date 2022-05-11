@@ -1,9 +1,10 @@
 <template>
   <div class="not-found">
-    <el-empty
-      description="Not Found"
-      :image="require('@/assets/img/not-found.svg')"
-    />
+    <el-empty description="Not Found">
+      <template #image>
+        <img src="@/assets/img/not-found.svg" alt="" />
+      </template>
+    </el-empty>
   </div>
 </template>
 

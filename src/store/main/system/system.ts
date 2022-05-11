@@ -12,14 +12,28 @@ const systemModule: Module<ISystemState, IRootState> = {
       userCount: 0
     }
   },
+  mutations: {
+    changeUserList(state, userList: any[]) {
+      state.userList = userList
+    },
+    changeUserCount(state, userCount: number) {
+      state.userCount = userCount
+    }
+  },
   actions: {
     async getPageListAction({ commit }, payload: any) {
       console.log(payload.pageUrl)
       console.log(payload.queryInfo)
 
       // 1.对页面发送请求
-      const pageResult = await getPageListData(payload.url, payload.queryInfo)
+      const pageResult = await getPageListData(
+        payload.pageUrl,
+        payload.queryInfo
+      )
       console.log(pageResult)
+      const { list, totalCount } = pageResult.data
+      commit('changeUserList', list)
+      commit('changeUserCount', totalCount)
     }
   }
 }
