@@ -1,10 +1,10 @@
 // service统一出口
-import HYRequest from './request'
+import RERequest from './request'
 import { BASE_URL, TIME_OUT } from './request/config'
 
 import localCache from '@/utils/cache'
 
-const hyRequest = new HYRequest({
+const reRequest = new RERequest({
   baseURL: BASE_URL,
   timeout: TIME_OUT,
   interceptors: {
@@ -39,4 +39,4 @@ const hyRequest = new HYRequest({
   }
 })
 
-export default hyRequest
+export default reRequest

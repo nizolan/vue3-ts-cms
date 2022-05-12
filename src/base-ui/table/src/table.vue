@@ -1,5 +1,5 @@
 <template>
-  <div class="hy-table">
+  <div class="re-table">
     <div class="header">
       <slot name="header">
         <div class="title">{{ title }}</div>
@@ -18,6 +18,7 @@
         v-if="showSelectColumn"
         type="selection"
         align="center"
+        width="60"
       ></el-table-column>
       <el-table-column
         v-if="showIndexColumn"
@@ -42,9 +43,7 @@
           v-model:currentPage="currentPage4"
           v-model:page-size="pageSize4"
           :page-sizes="[100, 200, 300, 400]"
-          :small="small"
-          :disabled="disabled"
-          :background="background"
+          small="small"
           layout="total, sizes, prev, pager, next, jumper"
           :total="400"
           @size-change="handleSizeChange"
@@ -56,13 +55,13 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType } from 'vue'
+import { defineComponent, PropType, ref } from 'vue'
 
 export default defineComponent({
   props: {
     title: {
       type: String,
-      required: true
+      default: ''
     },
     listData: {
       type: Array,
@@ -88,8 +87,22 @@ export default defineComponent({
       emit('selectionChange', value)
     }
 
+    const currentPage4 = ref(4)
+    const pageSize4 = ref(100)
+
+    const handleSizeChange = (val: number) => {
+      console.log(`${val} items per page`)
+    }
+    const handleCurrentChange = (val: number) => {
+      console.log(`current page: ${val}`)
+    }
+
     return {
-      handleSelectionChange
+      handleSelectionChange,
+      currentPage4,
+      pageSize4,
+      handleSizeChange,
+      handleCurrentChange
     }
   }
 })
@@ -115,9 +128,10 @@ export default defineComponent({
 
 .footer {
   margin-top: 15px;
+  text-align: right;
 
   .el-pagination {
-    text-align: right;
+    display: inline-flex;
   }
 }
 </style>

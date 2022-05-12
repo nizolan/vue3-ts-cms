@@ -1,19 +1,19 @@
 // 用类封装，有更强的封装性
 import axios from 'axios'
 import type { AxiosInstance } from 'axios'
-import type { HYRequestInterceptors, HYRequestConfig } from './type'
+import type { RERequestInterceptors, RERequestConfig } from './type'
 import { ElLoading } from 'element-plus'
 import { LoadingInstance } from 'element-plus/lib/components/loading/src/loading'
 
 const DEFAULT_LOADING = true
 
-class HYRequest {
+class RERequest {
   instance: AxiosInstance
-  interceptors?: HYRequestInterceptors
+  interceptors?: RERequestInterceptors
   showLoading: boolean
   loading?: LoadingInstance
 
-  constructor(config: HYRequestConfig) {
+  constructor(config: RERequestConfig) {
     // 创建axios实例
     this.instance = axios.create(config)
 
@@ -75,7 +75,7 @@ class HYRequest {
     )
   }
 
-  request<T = any>(config: HYRequestConfig<T>): Promise<T> {
+  request<T = any>(config: RERequestConfig<T>): Promise<T> {
     return new Promise((resolve, reject) => {
       // 1.单个请求对请求config的处理
       if (config.interceptors?.requestInterceptor) {
@@ -110,21 +110,21 @@ class HYRequest {
     })
   }
 
-  get<T = any>(config: HYRequestConfig<T>): Promise<T> {
+  get<T = any>(config: RERequestConfig<T>): Promise<T> {
     return this.request<T>({ ...config, method: 'GET' })
   }
 
-  post<T = any>(config: HYRequestConfig<T>): Promise<T> {
+  post<T = any>(config: RERequestConfig<T>): Promise<T> {
     return this.request<T>({ ...config, method: 'POST' })
   }
 
-  delete<T = any>(config: HYRequestConfig<T>): Promise<T> {
+  delete<T = any>(config: RERequestConfig<T>): Promise<T> {
     return this.request<T>({ ...config, method: 'DELETE' })
   }
 
-  patch<T = any>(config: HYRequestConfig<T>): Promise<T> {
+  patch<T = any>(config: RERequestConfig<T>): Promise<T> {
     return this.request<T>({ ...config, method: 'PATCH' })
   }
 }
 
-export default HYRequest
+export default RERequest

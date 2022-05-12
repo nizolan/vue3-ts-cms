@@ -9,7 +9,7 @@ import App from './App.vue'
 
 import router from './router'
 import store from './store'
-// import hyRequest from './service'
+// import reRequest from './service'
 import { setupStore } from './store'
 
 const app = createApp(App)
@@ -31,7 +31,7 @@ app.mount('#app')
 //   process.env.VUE_APP_BASE_NAME
 // )
 
-// hyRequest.request({
+// reRequest.request({
 //   url: '/home/multidata',
 //   method: 'GET',
 //   interceptors: {
@@ -52,7 +52,7 @@ app.mount('#app')
 //   success: boolean
 // }
 
-// hyRequest.get<DataType>({
+// reRequest.get<DataType>({
 //   url: '/home/multidata',
 //   showLoading: false
 // })

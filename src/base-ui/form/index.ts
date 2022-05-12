@@ -1,5 +1,5 @@
-import HyForm from './src/form.vue'
+import ReForm from './src/form.vue'
 
 export * from './types'
 
-export default HyForm
+export default ReForm

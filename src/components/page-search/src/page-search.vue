@@ -1,6 +1,6 @@
 <template>
   <div class="page-search">
-    <hy-form v-bind="searchFormConfig" v-model="formData">
+    <re-form v-bind="searchFormConfig" v-model="formData">
       <template #header>
         <h2 class="header">高级检索</h2>
       </template>
@@ -10,17 +10,17 @@
           <el-button type="primary" icon="Search">搜索</el-button>
         </div>
       </template>
-    </hy-form>
+    </re-form>
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue'
-import HyForm from '@/base-ui/form'
+import ReForm from '@/base-ui/form'
 
 export default defineComponent({
   components: {
-    HyForm
+    ReForm
   },
   props: {
     searchFormConfig: {
@@ -45,8 +45,8 @@ export default defineComponent({
 
 <style scoped lang="less">
 .header {
-  color: #545457;
-  font-size: 16px;
+  font-size: 20px;
+  font-weight: 700;
   text-align: left;
   padding: 0 50px;
 }

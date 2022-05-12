@@ -1,5 +1,5 @@
 <template>
-  <div class="hy-form">
+  <div class="re-form">
     <div class="header">
       <slot name="header"></slot>
     </div>
@@ -109,7 +109,7 @@ export default defineComponent({
 </script>
 
 <style scoped lang="less">
-.hy-form {
+.re-form {
   padding-top: 22px;
 }
 </style>
