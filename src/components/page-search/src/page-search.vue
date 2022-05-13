@@ -17,6 +17,7 @@
 <script lang="ts">
 import { defineComponent, ref } from 'vue'
 import ReForm from '@/base-ui/form'
+import { keysOf } from 'element-plus/lib/utils'
 
 export default defineComponent({
   components: {
