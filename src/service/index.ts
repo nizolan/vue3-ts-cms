@@ -1,10 +1,10 @@
 // service统一出口
-import RERequest from './request'
+import USERequest from './request'
 import { BASE_URL, TIME_OUT } from './request/config'
 
 import localCache from '@/utils/cache'
 
-const reRequest = new RERequest({
+const useRequest = new USERequest({
   baseURL: BASE_URL,
   timeout: TIME_OUT,
   interceptors: {
@@ -39,4 +39,4 @@ const reRequest = new RERequest({
   }
 })
 
-export default reRequest
+export default useRequest

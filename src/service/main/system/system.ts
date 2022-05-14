@@ -1,9 +1,9 @@
-import reRequest from '../../index'
+import useRequest from '../../index'
 
 import { IDataType } from '../../types'
 
 export function getPageListData(url: string, queryInfo: any) {
-  return reRequest.post<IDataType>({
+  return useRequest.post<IDataType>({
     url: url,
     data: queryInfo
   })

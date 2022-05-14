@@ -1,6 +1,6 @@
 <template>
   <div class="page-content">
-    <re-table :listData="dataList" v-bind="contentTableConfig">
+    <use-table :listData="dataList" v-bind="contentTableConfig">
       <!-- 1.header中的插槽 -->
       <template #headerHandler>
         <el-button type="primary" icon="Plus">新建</el-button>
@@ -24,24 +24,26 @@
       </template>
       <template #handler>
         <div class="handler-btns">
-          <el-button size="small" type="text" icon="Edit">编辑</el-button>
-          <el-button class="del-btn" size="small" type="text" icon="Delete">
+          <el-button class="edit-btn" size="small" text icon="Edit"
+            >编辑</el-button
+          >
+          <el-button class="del-btn" size="small" text icon="Delete">
             删除
           </el-button>
         </div>
       </template>
-    </re-table>
+    </use-table>
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent, computed, PropType } from 'vue'
 import { useStore } from '@/store'
-import ReTable from '@/base-ui/table'
+import UseTable from '@/base-ui/table'
 
 export default defineComponent({
   components: {
-    ReTable
+    UseTable
   },
   props: {
     contentTableConfig: {
@@ -55,21 +57,30 @@ export default defineComponent({
   },
   setup(props) {
     const store = useStore()
-    store.dispatch('system/getPageListAction', {
-      pageName: props.pageName,
-      queryInfo: {
-        offset: 0,
-        size: 10
-      }
-    })
 
+    // 发送网络请求
+    const getPageData = (queryInfo: any = {}) => {
+      store.dispatch('system/getPageListAction', {
+        pageName: props.pageName,
+        queryInfo: {
+          offset: 0,
+          size: 10,
+          ...queryInfo
+        }
+      })
+    }
+
+    getPageData()
+
+    // 从vuex中获取数据
     const dataList = computed(() =>
       store.getters[`system/pageListData`](props.pageName)
     )
     // const userCount = computed(() => store.state.system.userCount)
 
     return {
-      dataList
+      dataList,
+      getPageData
     }
   }
 })
@@ -81,13 +92,21 @@ export default defineComponent({
   border-top: 20px solid #f5f5f5;
 
   .handler-btns {
-    .el-icon {
-      margin: 0 2px;
+    .el-button {
+      padding: 0;
     }
   }
 
+  .edit-btn {
+    color: var(--el-color-primary);
+  }
+  .edit-btn:hover,
+  .edit-btn:focus {
+    color: var(--el-color-primary-light-3);
+  }
+
   .del-btn {
-    color: #ff0000;
+    color: var(--el-color-danger);
   }
   .del-btn:hover,
   .del-btn:focus {

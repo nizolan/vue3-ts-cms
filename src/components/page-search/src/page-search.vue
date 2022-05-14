@@ -1,27 +1,28 @@
 <template>
   <div class="page-search">
-    <re-form v-bind="searchFormConfig" v-model="formData">
+    <use-form v-bind="searchFormConfig" v-model="formData">
       <template #header>
         <h2 class="header">高级检索</h2>
       </template>
       <template #footer>
         <div class="footer">
           <el-button icon="Refresh" @click="handleResetClick">重置</el-button>
-          <el-button type="primary" icon="Search">搜索</el-button>
+          <el-button type="primary" icon="Search" @click="handleQueryClick"
+            >搜索</el-button
+          >
         </div>
       </template>
-    </re-form>
+    </use-form>
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue'
-import ReForm from '@/base-ui/form'
-import { keysOf } from 'element-plus/lib/utils'
+import UseForm from '@/base-ui/form'
 
 export default defineComponent({
   components: {
-    ReForm
+    UseForm
   },
   props: {
     searchFormConfig: {
@@ -29,7 +30,8 @@ export default defineComponent({
       require: true
     }
   },
-  setup(props) {
+  emits: ['resetBtnClick', 'queryBtnClick'],
+  setup(props, { emit }) {
     // 双向绑定的属性应该是由配置文件的field来决定
     const formItems = props.searchFormConfig?.formItems ?? []
     const formOriginData: any = {}
@@ -40,13 +42,20 @@ export default defineComponent({
     const formData = ref(formOriginData)
 
     const handleResetClick = () => {
-      formData.value = formOriginData
+      for (const key in formOriginData) {
+        formData.value[key] = formOriginData[key]
+      }
+      emit('resetBtnClick')
     }
 
-    // 点击充值
+    const handleQueryClick = () => {
+      emit('queryBtnClick', formData.value)
+    }
+
     return {
       formData,
-      handleResetClick
+      handleResetClick,
+      handleQueryClick
     }
   }
 })

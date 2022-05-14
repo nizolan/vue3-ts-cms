@@ -1,19 +1,19 @@
 // 用类封装，有更强的封装性
 import axios from 'axios'
 import type { AxiosInstance } from 'axios'
-import type { RERequestInterceptors, RERequestConfig } from './type'
+import type { USERequestInterceptors, USERequestConfig } from './type'
 import { ElLoading } from 'element-plus'
 import { LoadingInstance } from 'element-plus/lib/components/loading/src/loading'
 
 const DEFAULT_LOADING = true
 
-class RERequest {
+class USERequest {
   instance: AxiosInstance
-  interceptors?: RERequestInterceptors
+  interceptors?: USERequestInterceptors
   showLoading: boolean
   loading?: LoadingInstance
 
-  constructor(config: RERequestConfig) {
+  constructor(config: USERequestConfig) {
     // 创建axios实例
     this.instance = axios.create(config)
 
@@ -75,7 +75,7 @@ class RERequest {
     )
   }
 
-  request<T = any>(config: RERequestConfig<T>): Promise<T> {
+  request<T = any>(config: USERequestConfig<T>): Promise<T> {
     return new Promise((resolve, reject) => {
       // 1.单个请求对请求config的处理
       if (config.interceptors?.requestInterceptor) {
@@ -110,21 +110,21 @@ class RERequest {
     })
   }
 
-  get<T = any>(config: RERequestConfig<T>): Promise<T> {
+  get<T = any>(config: USERequestConfig<T>): Promise<T> {
     return this.request<T>({ ...config, method: 'GET' })
   }
 
-  post<T = any>(config: RERequestConfig<T>): Promise<T> {
+  post<T = any>(config: USERequestConfig<T>): Promise<T> {
     return this.request<T>({ ...config, method: 'POST' })
   }
 
-  delete<T = any>(config: RERequestConfig<T>): Promise<T> {
+  delete<T = any>(config: USERequestConfig<T>): Promise<T> {
     return this.request<T>({ ...config, method: 'DELETE' })
   }
 
-  patch<T = any>(config: RERequestConfig<T>): Promise<T> {
+  patch<T = any>(config: USERequestConfig<T>): Promise<T> {
     return this.request<T>({ ...config, method: 'PATCH' })
   }
 }
 
-export default RERequest
+export default USERequest

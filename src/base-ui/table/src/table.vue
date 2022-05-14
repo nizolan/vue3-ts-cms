@@ -1,5 +1,5 @@
 <template>
-  <div class="re-table">
+  <div class="use-table">
     <div class="header">
       <slot name="header">
         <div class="title">{{ title }}</div>

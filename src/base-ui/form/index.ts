@@ -1,5 +1,5 @@
-import ReForm from './src/form.vue'
+import UseForm from './src/form.vue'
 
 export * from './types'
 
-export default ReForm
+export default UseForm

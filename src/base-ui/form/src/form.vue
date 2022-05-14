@@ -1,5 +1,5 @@
 <template>
-  <div class="re-form">
+  <div class="use-form">
     <div class="header">
       <slot name="header"></slot>
     </div>
@@ -109,7 +109,7 @@ export default defineComponent({
 </script>
 
 <style scoped lang="less">
-.re-form {
+.use-form {
   padding-top: 22px;
 }
 </style>
