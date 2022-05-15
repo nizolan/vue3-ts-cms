@@ -9,7 +9,16 @@
       ref="pageContentRef"
       :contentTableConfig="contentTableConfig"
       pageName="users"
-    ></page-content>
+    >
+      <template #status="scope">
+        <el-button
+          plain
+          size="small"
+          :type="scope.row.enable ? 'success' : 'danger'"
+          >{{ scope.row.enable ? '启用' : '禁用' }}</el-button
+        >
+      </template>
+    </page-content>
   </div>
 </template>
 
@@ -23,12 +32,6 @@ import PageSearch from '@/components/page-search'
 import PageContent from '@/components/page-content'
 
 import { usePageSearch } from '@/hooks/use-page-search'
-
-declare module '@vue/runtime-core' {
-  interface ComponentCustomProperties {
-    $filters: any
-  }
-}
 
 export default defineComponent({
   name: 'users',

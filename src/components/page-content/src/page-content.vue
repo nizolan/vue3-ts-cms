@@ -1,45 +1,72 @@
 <template>
   <div class="page-content">
-    <use-table :listData="dataList" v-bind="contentTableConfig">
+    <use-table
+      :listData="dataList"
+      :listCount="dataCount"
+      v-bind="contentTableConfig"
+      v-model:page="pageInfo"
+    >
       <!-- 1.header中的插槽 -->
       <template #headerHandler>
-        <el-button type="primary" icon="Plus">新建</el-button>
+        <el-button v-if="isCreate" type="primary" icon="Plus">新建</el-button>
         <el-button type="primary" icon="Refresh">刷新</el-button>
       </template>
 
       <!-- 2.列中的插槽 -->
-      <template #status="scope">
-        <el-button
-          plain
-          size="small"
-          :type="scope.row.enable ? 'success' : 'danger'"
-          >{{ scope.row.enable ? '启用' : '禁用' }}</el-button
-        >
-      </template>
       <template #createAt="scope">
         <span>{{ $filters.formatTime(scope.row.createAt) }}</span>
       </template>
       <template #updateAt="scope">
         <span>{{ $filters.formatTime(scope.row.updateAt) }}</span>
       </template>
-      <template #handler>
+      <template #handler="scope">
         <div class="handler-btns">
-          <el-button class="edit-btn" size="small" text icon="Edit"
+          <el-button
+            v-if="isUpdate"
+            class="edit-btn"
+            size="small"
+            text
+            icon="Edit"
             >编辑</el-button
           >
-          <el-button class="del-btn" size="small" text icon="Delete">
+          <el-button
+            v-if="isDelete"
+            class="del-btn"
+            size="small"
+            text
+            icon="Delete"
+            @click="handleDeleteClick(scope.row)"
+          >
             删除
           </el-button>
         </div>
+      </template>
+
+      <!-- 在page-content中动态插入剩余的插槽 -->
+      <template
+        v-for="item in otherPropSlots"
+        :key="item.prop"
+        #[item.slotName]="scope"
+      >
+        <template v-if="item.slotName">
+          <slot :name="item.slotName" :row="scope.row"></slot>
+        </template>
       </template>
     </use-table>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, computed, PropType } from 'vue'
+import { defineComponent, computed, PropType, ref, watch } from 'vue'
 import { useStore } from '@/store'
 import UseTable from '@/base-ui/table'
+import { usePermission } from '@/hooks/use-permission'
+
+declare module '@vue/runtime-core' {
+  interface ComponentCustomProperties {
+    $filters: any
+  }
+}
 
 export default defineComponent({
   components: {
@@ -58,13 +85,32 @@ export default defineComponent({
   setup(props) {
     const store = useStore()
 
-    // 发送网络请求
+    // 0.获取操作的权限
+    const isCreate = usePermission(props.pageName as string, 'create')
+    const isUpdate = usePermission(props.pageName as string, 'update')
+    const isDelete = usePermission(props.pageName as string, 'delete')
+    const isQuery = usePermission(props.pageName as string, 'query')
+
+    // 1.双向绑定pageInfo
+    const pageInfo = ref({ currentPage: 1, pageSize: 10 })
+    watch(
+      pageInfo,
+      () => {
+        getPageData()
+      },
+      {
+        deep: true
+      }
+    )
+
+    // 2.发送网络请求
     const getPageData = (queryInfo: any = {}) => {
+      if (!isQuery) return
       store.dispatch('system/getPageListAction', {
         pageName: props.pageName,
         queryInfo: {
-          offset: 0,
-          size: 10,
+          offset: (pageInfo.value.currentPage - 1) * pageInfo.value.pageSize,
+          size: pageInfo.value.pageSize,
           ...queryInfo
         }
       })
@@ -72,15 +118,39 @@ export default defineComponent({
 
     getPageData()
 
-    // 从vuex中获取数据
+    // 3.从vuex中获取数据
     const dataList = computed(() =>
       store.getters[`system/pageListData`](props.pageName)
     )
-    // const userCount = computed(() => store.state.system.userCount)
+    const dataCount = computed(() =>
+      store.getters[`system/pageListCount`](props.pageName)
+    )
+
+    // 4.获取其他的动态插槽名称
+    const otherPropSlots = props.contentTableConfig?.propList.filter(
+      (item: any) => {
+        if (item.slotName === 'createAt') return false
+        if (item.slotName === 'updateAt') return false
+        if (item.slotName === 'handler') return false
+        return true
+      }
+    )
+
+    // 5.删除/编辑/新建操作
+    const handleDeleteClick = (item: any) => {
+      console.log(item)
+    }
 
     return {
       dataList,
-      getPageData
+      dataCount,
+      getPageData,
+      pageInfo,
+      otherPropSlots,
+      isCreate,
+      isUpdate,
+      isDelete,
+      handleDeleteClick
     }
   }
 })

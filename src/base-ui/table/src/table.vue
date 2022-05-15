@@ -13,6 +13,7 @@
       border
       style="width: 100%"
       @selection-change="handleSelectionChange"
+      v-bind="childrenProps"
     >
       <el-table-column
         v-if="showSelectColumn"
@@ -28,7 +29,7 @@
         width="60"
       ></el-table-column>
       <template v-for="propItem in propList" :key="propItem.prop">
-        <el-table-column v-bind="propItem" align="center">
+        <el-table-column v-bind="propItem" align="center" show-overflow-tooltip>
           <template #default="scope">
             <slot :name="propItem.slotName" :row="scope.row">
               {{ scope.row[propItem.prop] }}
@@ -37,17 +38,15 @@
         </el-table-column>
       </template>
     </el-table>
-    <div class="footer">
+    <div class="footer" v-if="showFooter">
       <slot name="footer">
         <el-pagination
-          v-model:currentPage="currentPage4"
-          v-model:page-size="pageSize4"
-          :page-sizes="[100, 200, 300, 400]"
+          v-model:currentPage="page.currentPage"
+          v-model:page-size="page.pageSize"
+          :page-sizes="[10, 20, 30, 40]"
           small="small"
           layout="total, sizes, prev, pager, next, jumper"
-          :total="400"
-          @size-change="handleSizeChange"
-          @current-change="handleCurrentChange"
+          :total="listCount"
         />
       </slot>
     </div>
@@ -55,7 +54,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType, ref } from 'vue'
+import { defineComponent, PropType } from 'vue'
 
 export default defineComponent({
   props: {
@@ -67,8 +66,12 @@ export default defineComponent({
       type: Array,
       required: true
     },
+    listCount: {
+      type: Number,
+      default: 0
+    },
     propList: {
-      type: Array as PropType<any>,
+      type: Array as PropType<any[]>,
       required: true
     },
     showIndexColumn: {
@@ -78,31 +81,28 @@ export default defineComponent({
     showSelectColumn: {
       type: Boolean,
       default: false
+    },
+    page: {
+      type: Object,
+      default: () => ({ currentPage: 0, pageSize: 10 })
+    },
+    childrenProps: {
+      tyoe: Object,
+      default: () => ({})
+    },
+    showFooter: {
+      type: Boolean,
+      default: true
     }
   },
   emits: ['selectionChange'],
   setup(props, { emit }) {
     const handleSelectionChange = (value: any) => {
-      console.log(value)
       emit('selectionChange', value)
     }
 
-    const currentPage4 = ref(4)
-    const pageSize4 = ref(100)
-
-    const handleSizeChange = (val: number) => {
-      console.log(`${val} items per page`)
-    }
-    const handleCurrentChange = (val: number) => {
-      console.log(`current page: ${val}`)
-    }
-
     return {
-      handleSelectionChange,
-      currentPage4,
-      pageSize4,
-      handleSizeChange,
-      handleCurrentChange
+      handleSelectionChange
     }
   }
 })
@@ -123,6 +123,14 @@ export default defineComponent({
 
   .handler {
     align-items: center;
+  }
+}
+
+.el-table {
+  & ::v-deep th.el-table__cell,
+  ::v-deep td.el-table__cell {
+    // 设置position 使得 子元素不与其产生新的层叠关系
+    position: static;
   }
 }
 

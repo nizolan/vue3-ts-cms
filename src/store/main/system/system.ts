@@ -2,7 +2,7 @@ import { Module } from 'vuex'
 import { IRootState } from '@/store/types'
 import { ISystemState } from './types'
 
-import { getPageListData } from '@/service/main/system/system'
+import { getPageListData, deletePageData } from '@/service/main/system/system'
 
 const systemModule: Module<ISystemState, IRootState> = {
   namespaced: true,
@@ -11,7 +11,11 @@ const systemModule: Module<ISystemState, IRootState> = {
       usersList: [],
       usersCount: 0,
       roleList: [],
-      roleCount: 0
+      roleCount: 0,
+      goodsList: [],
+      goodsCount: 0,
+      menuList: [],
+      menuCount: 0
     }
   },
   mutations: {
@@ -26,12 +30,31 @@ const systemModule: Module<ISystemState, IRootState> = {
     },
     changeRoleCount(state, roleCount: number) {
       state.roleCount = roleCount
+    },
+    changeGoodsList(state, goodsList: any[]) {
+      state.goodsList = goodsList
+    },
+    changeGoodsCount(state, goodsCount: number) {
+      state.goodsCount = goodsCount
+    },
+    changeMenuList(state, menuList: any[]) {
+      state.menuList = menuList
+    },
+    changeMenuCount(state, menuCount: number) {
+      state.menuCount = menuCount
     }
   },
   getters: {
     pageListData(state) {
       return (pageName: string) => {
-        return state[`${pageName}List` as keyof typeof state]
+        // return state[`${pageName}List` as keyof typeof state]
+        return (state as any)[`${pageName}List`]
+      }
+    },
+    pageListCount(state) {
+      return (pageName: string) => {
+        // return state[`${pageName}Count` as keyof typeof state]
+        return (state as any)[`${pageName}Count`]
       }
     }
   },
@@ -70,6 +93,24 @@ const systemModule: Module<ISystemState, IRootState> = {
       //     commit('changeRoleCount', totalCount)
       //     break
       // }
+    },
+
+    async deletePageDataAction({ dispatch }, payload: any) {
+      // 1.获取pageName和id
+      // pageName -> /users
+      // id -> /users/id
+      const { pageName, id } = payload
+      const pageUrl = `/${pageName}/${id}`
+      // 2.调用删除网络请求
+      await deletePageData(pageUrl)
+      // 3.重新请求最新的数据
+      dispatch('getPageListAction', {
+        pageName,
+        queryInfo: {
+          offset: 0,
+          size: 10
+        }
+      })
     }
   }
 }
