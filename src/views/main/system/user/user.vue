@@ -24,13 +24,14 @@
     <page-modal
       :defalutInfo="defalutInfo"
       ref="pageModalRef"
-      :modalConfig="modalConfig"
+      :modalConfig="modalConfigRef"
     ></page-modal>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, computed } from 'vue'
+import { useStore } from '@/store'
 
 import PageSearch from '@/components/page-search'
 import PageContent from '@/components/page-content'
@@ -55,6 +56,7 @@ export default defineComponent({
       usePageSearch()
 
     // pageModal相关的hook逻辑
+    // 1.处理密码的显示隐藏
     const newCallback = () => {
       const passwordItem = modalConfig.formItems.find(
         (item) => item.field === 'password'
@@ -67,6 +69,26 @@ export default defineComponent({
       )
       passwordItem!.isHidden = true
     }
+
+    // 2.动态添加角色和列表
+    const store = useStore()
+    const modalConfigRef = computed(() => {
+      const departmentItem = modalConfig.formItems.find(
+        (item) => item.field === 'departmentId'
+      )
+      departmentItem!.options = store.state.entireDepartment.map((item) => {
+        return { title: item.name, value: item.id }
+      })
+      const roleItem = modalConfig.formItems.find(
+        (item) => item.field === 'roleId'
+      )
+      roleItem!.options = store.state.entireRole.map((item) => {
+        return { title: item.name, value: item.id }
+      })
+      return modalConfig
+    })
+
+    // 3.调用hook获取公共变量和函数
     const { pageModalRef, defalutInfo, handleNewData, handleEditData } =
       usePageModal(newCallback, editCallback)
 
@@ -76,7 +98,7 @@ export default defineComponent({
       pageContentRef,
       handleResetClick,
       handleQueryClick,
-      modalConfig,
+      modalConfigRef,
       handleNewData,
       handleEditData,
       pageModalRef,

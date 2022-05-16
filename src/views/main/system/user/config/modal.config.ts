@@ -1,4 +1,6 @@
-export const modalConfig = {
+import { IForm } from '@/base-ui/form'
+
+export const modalConfig: IForm = {
   formItems: [
     {
       field: 'name',
@@ -30,20 +32,14 @@ export const modalConfig = {
       type: 'select',
       label: '选择部门',
       placeholder: '请选择部门',
-      options: [
-        { title: '启用', value: 1 },
-        { title: '禁用', value: 0 }
-      ]
+      options: []
     },
     {
       field: 'roleId',
       type: 'select',
       label: '选择角色',
       placeholder: '请选择角色',
-      options: [
-        { title: '启用', value: 1 },
-        { title: '禁用', value: 0 }
-      ]
+      options: []
     }
   ],
   colLayout: {
