@@ -2,12 +2,13 @@
   <div class="page-modal">
     <el-dialog
       v-model="dialogVisible"
-      title="新建用户"
+      :title="titleName"
       width="30%"
       center
       destroy-on-close
     >
       <use-form v-bind="modalConfig" v-model="formData"></use-form>
+      <slot></slot>
       <template #footer>
         <span class="dialog-footer">
           <el-button @click="dialogVisible = false">取消</el-button>
@@ -28,11 +29,19 @@ export default defineComponent({
     UseForm
   },
   props: {
+    titleName: {
+      type: String,
+      default: '新建用户'
+    },
     modalConfig: {
       type: Object,
       required: true
     },
     defalutInfo: {
+      type: Object,
+      default: () => ({})
+    },
+    otherInfo: {
       type: Object,
       default: () => ({})
     },
@@ -64,7 +73,7 @@ export default defineComponent({
         console.log('编辑')
         store.dispatch('system/editPageDataAction', {
           pageName: props.pageName,
-          editData: { ...formData.value },
+          editData: { ...formData.value, ...props.otherInfo },
           id: props.defalutInfo.id
         })
       } else {
@@ -72,7 +81,7 @@ export default defineComponent({
         console.log('新建')
         store.dispatch('system/createPageDataAction', {
           pageName: props.pageName,
-          newData: { ...formData.value }
+          newData: { ...formData.value, ...props.otherInfo }
         })
       }
     }

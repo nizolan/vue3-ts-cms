@@ -26,6 +26,7 @@
       ref="pageModalRef"
       pageName="users"
       :modalConfig="modalConfigRef"
+      titleName="用户信息"
     ></page-modal>
   </div>
 </template>
