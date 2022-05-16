@@ -24,6 +24,7 @@
     <page-modal
       :defalutInfo="defalutInfo"
       ref="pageModalRef"
+      pageName="users"
       :modalConfig="modalConfigRef"
     ></page-modal>
   </div>

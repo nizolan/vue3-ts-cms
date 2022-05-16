@@ -11,9 +11,7 @@
       <template #footer>
         <span class="dialog-footer">
           <el-button @click="dialogVisible = false">取消</el-button>
-          <el-button type="primary" @click="dialogVisible = false"
-            >确定</el-button
-          >
+          <el-button type="primary" @click="handleConfirmClick">确定</el-button>
         </span>
       </template>
     </el-dialog>
@@ -22,6 +20,7 @@
 
 <script lang="ts">
 import { defineComponent, ref, watch } from 'vue'
+import { useStore } from 'vuex'
 import UseForm from '@/base-ui/form'
 
 export default defineComponent({
@@ -36,6 +35,10 @@ export default defineComponent({
     defalutInfo: {
       type: Object,
       default: () => ({})
+    },
+    pageName: {
+      type: String,
+      required: true
     }
   },
   setup(props) {
@@ -51,9 +54,33 @@ export default defineComponent({
       }
     )
 
+    // 点击确定按钮
+    const store = useStore()
+    const handleConfirmClick = () => {
+      dialogVisible.value = false
+      // 区分新建和编辑
+      if (Object.keys(props.defalutInfo).length) {
+        // 编辑
+        console.log('编辑')
+        store.dispatch('system/editPageDataAction', {
+          pageName: props.pageName,
+          editData: { ...formData.value },
+          id: props.defalutInfo.id
+        })
+      } else {
+        // 新建
+        console.log('新建')
+        store.dispatch('system/createPageDataAction', {
+          pageName: props.pageName,
+          newData: { ...formData.value }
+        })
+      }
+    }
+
     return {
       dialogVisible,
-      formData
+      formData,
+      handleConfirmClick
     }
   }
 })
