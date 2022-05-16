@@ -69,12 +69,6 @@ import { useStore } from '@/store'
 import UseTable from '@/base-ui/table'
 import { usePermission } from '@/hooks/use-permission'
 
-declare module '@vue/runtime-core' {
-  interface ComponentCustomProperties {
-    $filters: any
-  }
-}
-
 export default defineComponent({
   components: {
     UseTable
@@ -146,7 +140,6 @@ export default defineComponent({
 
     // 5.删除/编辑/新建操作
     const handleDeleteClick = (item: any) => {
-      console.log(item)
       store.dispatch('system/deletePageDataAction', {
         pageName: props.pageName,
         id: item.id

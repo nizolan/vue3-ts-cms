@@ -7,6 +7,7 @@ import {
   ElBreadcrumb,
   ElBreadcrumbItem,
   ElButton,
+  ElCard,
   ElCheckbox,
   ElCol,
   ElContainer,
@@ -76,7 +77,8 @@ const components = [
   ElPagination,
   ElImage,
   ElDialog,
-  ElTree
+  ElTree,
+  ElCard
 ]
 
 export default function (app: App) {

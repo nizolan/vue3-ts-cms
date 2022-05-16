@@ -12,6 +12,12 @@ import store from './store'
 // import useRequest from './service'
 import { setupStore } from './store'
 
+declare module '@vue/runtime-core' {
+  interface ComponentCustomProperties {
+    $filters: any
+  }
+}
+
 const app = createApp(App)
 
 // 注册elments-plus/其他
